@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Records</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 40px;
+            background-color: #f4f6f8;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .employee {
+            padding: 15px;
+            margin-top: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+            
+.add-btn {
+    padding: 10px 15px;
+    cursor: pointer;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+}
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Employee Records</h1>
+
+        <button class="add-btn" onclick="showMessage()">Add Employee</button>
+
+        <div class="employee">
+            <strong>John Doe</strong>
+            <p>Software Developer</p>
+        </div>
+
+        <div class="employee">
+            <strong>Jane Smith</strong>
+            <p>Project Manager</p>
+        </div>
+    </div>
+
+    <script>
+        function showMessage() {
+            alert("Employee feature coming soon!");
+        }
+    </script>
+
+</body>
+</html>
