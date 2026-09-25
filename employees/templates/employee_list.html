@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,14 +49,12 @@
     <div class="container">
         <h1>Employee Records</h1>
 
-        <button class="add-btn" onclick="showMessage()">Add Employee</button>
-
-        <div class="employee">
+        <button class="add-btn">Add Employee</button>
+<div id="employee-form"></div>
             <strong>John Doe</strong>
             <p>Software Developer</p>
         </div>
-
-        <div class="employee">
+<div id="employee-list" class="employee"></div>
             <strong>Jane Smith</strong>
             <p>Project Manager</p>
         </div>
@@ -66,6 +65,6 @@
             alert("Employee feature coming soon!");
         }
     </script>
-
+<script src="{% static 'js/dashboard.js' %}"></script>
 </body>
 </html>
