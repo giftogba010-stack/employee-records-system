@@ -1,70 +1,416 @@
+```html
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee Records</title>
+
+    <title>Employee Records Dashboard</title>
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
             margin: 0;
-            padding: 40px;
-            background-color: #f4f6f8;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f3f6fb;
+            color: #243047;
+        }
+
+        .topbar {
+            background: #173b70;
+            color: white;
+            padding: 22px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .brand h1 {
+            margin: 0 0 6px;
+            font-size: 25px;
+        }
+
+        .brand p {
+            margin: 0;
+            color: #d6e3f7;
+            font-size: 14px;
+        }
+
+        .logout-form {
+            margin: 0;
+        }
+
+        .logout-btn {
+            background: white;
+            color: #173b70;
+            border: none;
+            border-radius: 7px;
+            padding: 10px 18px;
+            font-weight: bold;
+            cursor: pointer;
         }
 
         .container {
-            max-width: 900px;
-            margin: auto;
+            max-width: 1150px;
+            width: 90%;
+            margin: 30px auto;
+        }
+
+        .welcome {
+            margin-bottom: 25px;
+        }
+
+        .welcome h2 {
+            margin-bottom: 8px;
+        }
+
+        .welcome p {
+            color: #68758a;
+            margin-top: 0;
+        }
+
+        .panel {
             background: white;
-            padding: 30px;
-            border-radius: 10px;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px rgba(20, 45, 80, 0.07);
+            margin-bottom: 35px;
         }
 
-        h1 {
-            text-align: center;
+        .panel h2,
+        .directory-heading {
+            margin-top: 0;
         }
 
-        .employee {
-            padding: 15px;
-            margin-top: 10px;
-            border: 1px solid #ddd;
+        .employee-form p {
+            margin-bottom: 16px;
+        }
+
+        .employee-form label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        .employee-form input,
+        .employee-form select,
+        .employee-form textarea {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #ccd5e2;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        .primary-btn {
+            background: #245db5;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            padding: 12px 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .directory-heading {
+            margin-bottom: 18px;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            max-width: 650px;
+        }
+
+        .search-form input {
+            flex: 1;
+            min-width: 0;
+            padding: 12px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            font-size: 15px;
+            background: white;
+        }
+
+        .search-btn {
+            background: #173b70;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            padding: 12px 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .clear-search {
+            display: inline-block;
+            margin: 12px 0 0;
+            color: #245db5;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .employee-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .employee-card {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px rgba(20, 45, 80, 0.06);
+            border-top: 4px solid #245db5;
+            overflow-wrap: anywhere;
+        }
+
+        .employee-card h3 {
+            margin-top: 0;
+            margin-bottom: 18px;
+            color: #173b70;
+        }
+
+        .employee-card p {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 16px 0;
+        }
+
+        .action-link {
+            display: inline-block;
+            background: #e8f0ff;
+            color: #174b91;
+            padding: 8px 12px;
             border-radius: 6px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
         }
-            
-.add-btn {
-    padding: 10px 15px;
-    cursor: pointer;
-    border: none;
-    border-radius: 6px;
-    font-weight: bold;
-}
+
+        .remove-btn {
+            background: #c93636;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 9px 13px;
+            cursor: pointer;
+        }
+
+        .message {
+            background: #e5f7eb;
+            color: #176b35;
+            border: 1px solid #b7e5c5;
+            padding: 13px 16px;
+            border-radius: 7px;
+            margin-bottom: 20px;
+        }
+
+        .empty-state {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            color: #68758a;
+            grid-column: 1 / -1;
+        }
+
+        footer {
+            text-align: center;
+            color: #7a8799;
+            padding: 25px;
+            font-size: 13px;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        @media (max-width: 600px) {
+            .topbar {
+                padding: 20px 5%;
+            }
+
+            .brand h1 {
+                font-size: 20px;
+            }
+
+            .container {
+                width: 92%;
+            }
+
+            .search-form {
+                flex-wrap: wrap;
+            }
+
+            .search-form input {
+                flex-basis: 100%;
+            }
+
+            .search-btn {
+                width: 100%;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <div class="container">
-        <h1>Employee Records</h1>
-
-        <button class="add-btn">Add Employee</button>
-<div id="employee-form"></div>
-            <strong>John Doe</strong>
-            <p>Software Developer</p>
+    <header class="topbar">
+        <div class="brand">
+            <h1>Employee Records</h1>
+            <p>Employee management dashboard</p>
         </div>
-<div id="employee-list" class="employee"></div>
-            <strong>Jane Smith</strong>
-            <p>Project Manager</p>
-        </div>
-    </div>
 
-    <script>
-        function showMessage() {
-            alert("Employee feature coming soon!");
-        }
-    </script>
-<script src="{% static 'js/dashboard.js' %}"></script>
+        <form class="logout-form"
+              method="POST"
+              action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button class="logout-btn" type="submit">
+                Logout
+            </button>
+        </form>
+    </header>
+
+    <main class="container">
+
+        <section class="welcome">
+            <h2>Welcome, {{ request.user.username }}!</h2>
+            <p>Manage and review employee information below.</p>
+        </section>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="message">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        {% if can_add %}
+            <section class="panel">
+                <h2>Add Employee</h2>
+
+                <form class="employee-form"
+                      method="POST"
+                      novalidate>
+                    {% csrf_token %}
+                    {{ form.as_p }}
+
+                    <button class="primary-btn" type="submit">
+                        Add Employee
+                    </button>
+                </form>
+            </section>
+        {% endif %}
+
+        <section>
+            <h2 class="directory-heading">Employee Directory</h2>
+
+            <form class="search-form"
+                  method="GET"
+                  action="{% url 'employee_list' %}">
+
+                <input
+                    type="search"
+                    name="q"
+                    placeholder="Search by name, email, or department..."
+                    value="{{ search_query }}"
+                    aria-label="Search employees"
+                >
+
+                <button class="search-btn" type="submit">
+                    Search
+                </button>
+            </form>
+
+            {% if search_query %}
+                <p>
+                    Search results for: <strong>{{ search_query }}</strong>
+                </p>
+                <a class="clear-search"
+                   href="{% url 'employee_list' %}">
+                    Clear search
+                </a>
+            {% endif %}
+
+            <div class="employee-grid">
+                {% for employee in employees %}
+                    <article class="employee-card">
+                        <h3>{{ employee.full_name }}</h3>
+
+                        <p>
+                            <strong>Email:</strong>
+                            {{ employee.email }}
+                        </p>
+
+                        <p>
+                            <strong>Department:</strong>
+                            {{ employee.department }}
+                        </p>
+
+                        <p>
+                            <strong>Job title:</strong>
+                            {{ employee.job_title }}
+                        </p>
+
+                        <div class="actions">
+                            {% if can_edit %}
+                                <a class="action-link"
+                                   href="{% url 'edit_employee' employee.id %}">
+                                    Edit
+                                </a>
+                            {% endif %}
+
+                            {% if can_add %}
+                                <a class="action-link"
+                                   href="{% url 'link_employee_account' employee.id %}">
+                                    Link Account
+                                </a>
+                            {% endif %}
+                        </div>
+
+                        {% if can_delete %}
+                            <form method="POST"
+                                  action="{% url 'remove_employee' employee.id %}"
+                                  onsubmit="return confirm('Are you sure you want to remove this employee?');">
+
+                                {% csrf_token %}
+
+                                <button class="remove-btn" type="submit">
+                                    Remove
+                                </button>
+                            </form>
+                        {% endif %}
+                    </article>
+
+                {% empty %}
+                    <div class="empty-state">
+                        {% if search_query %}
+                            No employees matched your search.
+                            Try another name, email, or department.
+                        {% else %}
+                            No employee records are available for your account.
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        Employee Records Management System
+    </footer>
+
 </body>
 </html>
