@@ -1,1 +1,2 @@
-web: gunicorn employee_records_system.wsgi --log-file -
+
+web: python manage.py migrate --noinput && gunicorn employee_records_system.wsgi --log-file -
