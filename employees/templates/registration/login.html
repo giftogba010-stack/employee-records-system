@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | Employee Records System</title>
+    <title>Login | Employee Records System ogbagift</title>
 
     <style>
         * {
@@ -93,6 +93,26 @@
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
         }
 
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper input {
+            padding-right: 48px;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 19px;
+            padding: 4px;
+        }
+
         .form-fields ul.errorlist {
             color: #dc2626;
             font-size: 13px;
@@ -176,7 +196,28 @@
             {% csrf_token %}
 
             <div class="form-fields">
-                {{ form.as_p }}
+                {% for field in form %}
+                    <p>
+                        {{ field.label_tag }}
+
+                        {% if field.name == "password" %}
+                            <span class="password-wrapper">
+                                {{ field }}
+                                <button
+                                    type="button"
+                                    class="password-toggle"
+                                    aria-label="Show password"
+                                    aria-pressed="false"
+                                    onclick="togglePassword(this)"
+                                >👁️</button>
+                            </span>
+                        {% else %}
+                            {{ field }}
+                        {% endif %}
+
+                        {{ field.errors }}
+                    </p>
+                {% endfor %}
             </div>
 
             <button type="submit" class="login-button">
@@ -193,5 +234,23 @@
             Employee Records Management System
         </p>
     </main>
+
+    <script>
+        function togglePassword(button) {
+            const passwordInput = button.parentElement.querySelector("input");
+
+            if (!passwordInput) return;
+
+            const showPassword = passwordInput.type === "password";
+
+            passwordInput.type = showPassword ? "text" : "password";
+            button.textContent = showPassword ? "🙈" : "👁️";
+            button.setAttribute(
+                "aria-label",
+                showPassword ? "Hide password" : "Show password"
+            );
+            button.setAttribute("aria-pressed", String(showPassword));
+        }
+    </script>
 </body>
 </html>
