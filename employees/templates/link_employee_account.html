@@ -4,24 +4,228 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Link Employee Account</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 35px 15px;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 22px;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .heading {
+            margin-bottom: 25px;
+        }
+
+        .heading h1 {
+            margin: 0 0 10px;
+            color: #173b70;
+            font-size: 28px;
+        }
+
+        .heading p {
+            margin: 0;
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        .card {
+            padding: 28px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(15, 23, 42, 0.06);
+        }
+
+        .employee-box {
+            margin-bottom: 25px;
+            padding: 16px;
+            background: #eff6ff;
+            border-left: 4px solid #2563eb;
+            border-radius: 6px;
+        }
+
+        .employee-box p {
+            margin: 0 0 7px;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .employee-box h2 {
+            margin: 0;
+            color: #173b70;
+            font-size: 18px;
+        }
+
+        .form-heading {
+            margin-bottom: 20px;
+            color: #173b70;
+            font-size: 19px;
+        }
+
+        form p {
+            margin: 0 0 20px;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        form input,
+        form select,
+        form textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            background: #ffffff;
+            font-family: Arial, sans-serif;
+            font-size: 15px;
+        }
+
+        form input:focus,
+        form select:focus,
+        form textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        .helptext {
+            display: block;
+            margin-top: 6px;
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        .errorlist {
+            color: #b91c1c;
+            font-size: 13px;
+        }
+
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 7px;
+            font-size: 14px;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .save-button {
+            background: #2563eb;
+            color: white;
+        }
+
+        .save-button:hover {
+            background: #1d4ed8;
+        }
+
+        .cancel-button {
+            background: #e2e8f0;
+            color: #334155;
+        }
+
+        .cancel-button:hover {
+            background: #cbd5e1;
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 22px 12px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .button {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <h1>Link Login Account</h1>
+    <main class="container">
 
-    <p>Employee: {{ employee.full_name }}</p>
-
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-
-        <button type="submit">Save Account Link</button>
-    </form>
-
-    <p>
-        <a href="{% url 'employee_list' %}">
-            Back to Employee Records
+        <a class="back-link" href="{% url 'employee_list' %}">
+            &larr; Back to Employee Records
         </a>
-    </p>
+
+        <header class="heading">
+            <h1>Link Login Account</h1>
+            <p>Connect an existing login account to this employee record.</p>
+        </header>
+
+        <section class="card">
+
+            <div class="employee-box">
+                <p>Employee selected</p>
+                <h2>{{ employee.full_name }}</h2>
+            </div>
+
+            <h3 class="form-heading">Account Information</h3>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+                <div class="buttons">
+                    <button type="submit" class="button save-button">
+                        Save Account Link
+                    </button>
+
+                    <a href="{% url 'employee_list' %}"
+                       class="button cancel-button">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+
+        </section>
+    </main>
 </body>
 </html>
