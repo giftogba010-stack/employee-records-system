@@ -5,7 +5,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Employee Records Dashboard</title>
 
     <style>
@@ -74,6 +73,83 @@
             margin-top: 0;
         }
 
+        /* Notifications */
+        .message {
+            padding: 13px 16px;
+            border-radius: 7px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            border: 1px solid transparent;
+            line-height: 1.5;
+        }
+
+        .message.success {
+            background: #e5f7eb;
+            color: #176b35;
+            border-color: #b7e5c5;
+        }
+
+        .message.error {
+            background: #fde8e8;
+            color: #a61b1b;
+            border-color: #f5b5b5;
+        }
+
+        .message.warning {
+            background: #fff4d6;
+            color: #805b00;
+            border-color: #f2d98b;
+        }
+
+        .message.info {
+            background: #e5efff;
+            color: #174b91;
+            border-color: #b9d1ff;
+        }
+
+        /* Dashboard statistics */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px rgba(20, 45, 80, 0.07);
+            border-left: 5px solid #245db5;
+        }
+
+        .stat-card:nth-child(2) {
+            border-left-color: #159a83;
+        }
+
+        .stat-card:nth-child(3) {
+            border-left-color: #e6a23c;
+        }
+
+        .stat-card:nth-child(4) {
+            border-left-color: #c93636;
+        }
+
+        .stat-label {
+            color: #68758a;
+            font-size: 14px;
+            margin: 0 0 12px;
+        }
+
+        .stat-number {
+            color: #173b70;
+            font-size: 30px;
+            font-weight: bold;
+            margin: 0;
+            overflow-wrap: anywhere;
+        }
+
+        /* Add employee form */
         .panel {
             background: white;
             padding: 25px;
@@ -117,25 +193,29 @@
             cursor: pointer;
         }
 
+        /* Search and department filter */
         .directory-heading {
             margin-bottom: 18px;
         }
 
-        .search-form {
+        .filter-form {
             display: flex;
+            flex-wrap: wrap;
             gap: 10px;
-            margin-bottom: 25px;
-            max-width: 650px;
+            margin-bottom: 18px;
+            max-width: 850px;
         }
 
-        .search-form input {
+        .filter-form input,
+        .filter-form select {
             flex: 1;
-            min-width: 0;
+            min-width: 180px;
             padding: 12px 14px;
             border: 1px solid #cbd5e1;
             border-radius: 7px;
             font-size: 15px;
             background: white;
+            color: #243047;
         }
 
         .search-btn {
@@ -150,12 +230,13 @@
 
         .clear-search {
             display: inline-block;
-            margin: 12px 0 0;
+            margin: 0 0 25px;
             color: #245db5;
             text-decoration: none;
             font-size: 14px;
         }
 
+        /* Employee cards */
         .employee-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -174,7 +255,16 @@
         .employee-card h3 {
             margin-top: 0;
             margin-bottom: 18px;
+        }
+
+        .employee-name {
             color: #173b70;
+            text-decoration: none;
+        }
+
+        .employee-name:hover {
+            color: #245db5;
+            text-decoration: underline;
         }
 
         .employee-card p {
@@ -209,15 +299,6 @@
             cursor: pointer;
         }
 
-        .message {
-            background: #e5f7eb;
-            color: #176b35;
-            border: 1px solid #b7e5c5;
-            padding: 13px 16px;
-            border-radius: 7px;
-            margin-bottom: 20px;
-        }
-
         .empty-state {
             background: white;
             border-radius: 10px;
@@ -237,6 +318,12 @@
             opacity: 0.9;
         }
 
+        @media (max-width: 900px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
         @media (max-width: 600px) {
             .topbar {
                 padding: 20px 5%;
@@ -250,15 +337,26 @@
                 width: 92%;
             }
 
-            .search-form {
-                flex-wrap: wrap;
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
             }
 
-            .search-form input {
-                flex-basis: 100%;
+            .stat-card {
+                padding: 16px;
             }
 
-            .search-btn {
+            .stat-number {
+                font-size: 25px;
+            }
+
+            .filter-form {
+                flex-direction: column;
+            }
+
+            .filter-form input,
+            .filter-form select,
+            .filter-form button {
                 width: 100%;
             }
         }
@@ -277,9 +375,7 @@
               method="POST"
               action="{% url 'logout' %}">
             {% csrf_token %}
-            <button class="logout-btn" type="submit">
-                Logout
-            </button>
+            <button class="logout-btn" type="submit">Logout</button>
         </form>
     </header>
 
@@ -292,17 +388,39 @@
 
         {% if messages %}
             {% for message in messages %}
-                <div class="message">{{ message }}</div>
+                <div class="message {{ message.tags }}" role="alert">
+                    {{ message }}
+                </div>
             {% endfor %}
         {% endif %}
+
+        <section class="stats-grid">
+            <article class="stat-card">
+                <p class="stat-label">Total Employees</p>
+                <p class="stat-number">{{ total_employees }}</p>
+            </article>
+
+            <article class="stat-card">
+                <p class="stat-label">Departments</p>
+                <p class="stat-number">{{ total_departments }}</p>
+            </article>
+
+            <article class="stat-card">
+                <p class="stat-label">Linked Accounts</p>
+                <p class="stat-number">{{ linked_accounts }}</p>
+            </article>
+
+            <article class="stat-card">
+                <p class="stat-label">Unlinked Accounts</p>
+                <p class="stat-number">{{ unlinked_accounts }}</p>
+            </article>
+        </section>
 
         {% if can_add %}
             <section class="panel">
                 <h2>Add Employee</h2>
 
-                <form class="employee-form"
-                      method="POST"
-                      novalidate>
+                <form class="employee-form" method="POST">
                     {% csrf_token %}
                     {{ form.as_p }}
 
@@ -316,7 +434,7 @@
         <section>
             <h2 class="directory-heading">Employee Directory</h2>
 
-            <form class="search-form"
+            <form class="filter-form"
                   method="GET"
                   action="{% url 'employee_list' %}">
 
@@ -328,25 +446,43 @@
                     aria-label="Search employees"
                 >
 
+                <select name="department" aria-label="Filter by department">
+                    <option value="">All Departments</option>
+
+                    {% for department in departments %}
+                        <option
+                            value="{{ department }}"
+                            {% if selected_department == department %}selected{% endif %}
+                        >
+                            {{ department }}
+                        </option>
+                    {% endfor %}
+                </select>
+
                 <button class="search-btn" type="submit">
-                    Search
+                    Apply Filters
                 </button>
             </form>
 
-            {% if search_query %}
-                <p>
-                    Search results for: <strong>{{ search_query }}</strong>
-                </p>
+            {% if search_query or selected_department %}
+                <p>Showing filtered employee records.</p>
+
                 <a class="clear-search"
                    href="{% url 'employee_list' %}">
-                    Clear search
+                    Clear all filters
                 </a>
             {% endif %}
 
             <div class="employee-grid">
                 {% for employee in employees %}
                     <article class="employee-card">
-                        <h3>{{ employee.full_name }}</h3>
+
+                        <h3>
+                            <a class="employee-name"
+                               href="{% url 'employee_detail' employee.id %}">
+                                {{ employee.full_name }}
+                            </a>
+                        </h3>
 
                         <p>
                             <strong>Email:</strong>
@@ -391,16 +527,12 @@
                                 </button>
                             </form>
                         {% endif %}
-                    </article>
 
+                    </article>
                 {% empty %}
                     <div class="empty-state">
-                        {% if search_query %}
-                            No employees matched your search.
-                            Try another name, email, or department.
-                        {% else %}
-                            No employee records are available for your account.
-                        {% endif %}
+                        No employee records matched your filters.
+                        Try another search or department.
                     </div>
                 {% endfor %}
             </div>

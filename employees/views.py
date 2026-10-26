@@ -56,8 +56,11 @@ def employee_list(request):
     user = request.user
     can_add = can_manage_employees(user)
     profile = get_employee_profile(user)
-    search_query = request.GET.get('q', '').strip()
 
+    search_query = request.GET.get('q', '').strip()
+    selected_department = request.GET.get('department', '').strip()
+
+    # Restrict records according to the user's role.
     if can_add:
         employees = Employee.objects.all()
     elif user_in_group(user, 'Manager') and profile:
@@ -69,6 +72,32 @@ def employee_list(request):
     else:
         employees = Employee.objects.none()
 
+    # Calculate statistics before search and department filtering.
+    total_employees = employees.count()
+    total_departments = (
+        employees.values('department').distinct().count()
+    )
+    linked_accounts = employees.filter(
+        user__isnull=False
+    ).count()
+    unlinked_accounts = employees.filter(
+        user__isnull=True
+    ).count()
+
+    # Department choices come only from records the user may access.
+    departments = (
+        employees.order_by('department')
+        .values_list('department', flat=True)
+        .distinct()
+    )
+
+    # Apply the department filter.
+    if selected_department:
+        employees = employees.filter(
+            department=selected_department
+        )
+
+    # Apply the existing search.
     if search_query:
         employees = employees.filter(
             Q(full_name__icontains=search_query)
@@ -115,6 +144,12 @@ def employee_list(request):
         'can_edit': can_edit,
         'can_delete': can_add,
         'search_query': search_query,
+        'selected_department': selected_department,
+        'departments': departments,
+        'total_employees': total_employees,
+        'total_departments': total_departments,
+        'linked_accounts': linked_accounts,
+        'unlinked_accounts': unlinked_accounts,
     })
 
 
@@ -229,4 +264,18 @@ def register_user(request):
 
     return render(request, 'register.html', {
         'form': form
+    })
+@login_required
+def employee_detail(request, employee_id):
+    employee = get_object_or_404(Employee, id=employee_id)
+
+    if not can_edit_employee(request.user, employee):
+        messages.error(
+            request,
+            'You do not have permission to view this employee.'
+        )
+        return redirect('employee_list')
+
+    return render(request, 'employee_detail.html', {
+        'employee': employee,
     })
