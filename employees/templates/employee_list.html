@@ -1,4 +1,3 @@
-
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -18,6 +17,10 @@
             background: #f3f6fb;
             color: #243047;
         }
+
+        /* =========================
+           TOP BAR
+        ========================= */
 
         .topbar {
             background: #173b70;
@@ -73,7 +76,10 @@
             margin-top: 0;
         }
 
-        /* Notifications */
+        /* =========================
+           NOTIFICATIONS
+        ========================= */
+
         .message {
             padding: 13px 16px;
             border-radius: 7px;
@@ -95,19 +101,10 @@
             border-color: #f5b5b5;
         }
 
-        .message.warning {
-            background: #fff4d6;
-            color: #805b00;
-            border-color: #f2d98b;
-        }
+        /* =========================
+           DASHBOARD STATISTICS
+        ========================= */
 
-        .message.info {
-            background: #e5efff;
-            color: #174b91;
-            border-color: #b9d1ff;
-        }
-
-        /* Dashboard statistics */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -146,10 +143,12 @@
             font-size: 30px;
             font-weight: bold;
             margin: 0;
-            overflow-wrap: anywhere;
         }
 
-        /* Add employee form */
+        /* =========================
+           ADD EMPLOYEE FORM
+        ========================= */
+
         .panel {
             background: white;
             padding: 25px;
@@ -174,8 +173,7 @@
         }
 
         .employee-form input,
-        .employee-form select,
-        .employee-form textarea {
+        .employee-form select {
             width: 100%;
             padding: 11px;
             border: 1px solid #ccd5e2;
@@ -193,17 +191,15 @@
             cursor: pointer;
         }
 
-        /* Search and department filter */
-        .directory-heading {
-            margin-bottom: 18px;
-        }
+        /* =========================
+           SEARCH AND FILTER
+        ========================= */
 
         .filter-form {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
-            margin-bottom: 18px;
-            max-width: 850px;
+            margin-bottom: 20px;
         }
 
         .filter-form input,
@@ -214,8 +210,6 @@
             border: 1px solid #cbd5e1;
             border-radius: 7px;
             font-size: 15px;
-            background: white;
-            color: #243047;
         }
 
         .search-btn {
@@ -230,63 +224,75 @@
 
         .clear-search {
             display: inline-block;
-            margin: 0 0 25px;
+            margin-bottom: 20px;
             color: #245db5;
             text-decoration: none;
+        }
+
+        /* =========================
+           EMPLOYEE TABLE
+        ========================= */
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px rgba(20, 45, 80, 0.07);
+        }
+
+        .employee-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 750px;
+        }
+
+        .employee-table th {
+            background: #173b70;
+            color: white;
+            padding: 15px;
+            text-align: left;
             font-size: 14px;
         }
 
-        /* Employee cards */
-        .employee-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+        .employee-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 14px;
         }
 
-        .employee-card {
-            background: white;
-            padding: 22px;
-            border-radius: 12px;
-            box-shadow: 0 3px 15px rgba(20, 45, 80, 0.06);
-            border-top: 4px solid #245db5;
-            overflow-wrap: anywhere;
-        }
-
-        .employee-card h3 {
-            margin-top: 0;
-            margin-bottom: 18px;
+        .employee-table tr:hover {
+            background: #f7faff;
         }
 
         .employee-name {
             color: #173b70;
+            font-weight: bold;
             text-decoration: none;
         }
 
         .employee-name:hover {
-            color: #245db5;
             text-decoration: underline;
         }
 
-        .employee-card p {
-            font-size: 14px;
-            line-height: 1.6;
-        }
+        /* =========================
+           ACTION BUTTONS
+        ========================= */
 
         .actions {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            margin: 16px 0;
+            gap: 7px;
         }
 
         .action-link {
             display: inline-block;
             background: #e8f0ff;
             color: #174b91;
-            padding: 8px 12px;
+            padding: 7px 10px;
             border-radius: 6px;
             text-decoration: none;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: bold;
         }
 
@@ -295,16 +301,16 @@
             color: white;
             border: none;
             border-radius: 6px;
-            padding: 9px 13px;
+            padding: 7px 10px;
             cursor: pointer;
+            font-size: 12px;
         }
 
         .empty-state {
             background: white;
-            border-radius: 10px;
             padding: 25px;
+            border-radius: 10px;
             color: #68758a;
-            grid-column: 1 / -1;
         }
 
         footer {
@@ -318,13 +324,18 @@
             opacity: 0.9;
         }
 
+        /* =========================
+           RESPONSIVE DESIGN
+        ========================= */
+
         @media (max-width: 900px) {
             .stats-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
         @media (max-width: 600px) {
+
             .topbar {
                 padding: 20px 5%;
             }
@@ -338,16 +349,12 @@
             }
 
             .stats-grid {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: repeat(2, 1fr);
                 gap: 12px;
             }
 
             .stat-card {
                 padding: 16px;
-            }
-
-            .stat-number {
-                font-size: 25px;
             }
 
             .filter-form {
@@ -365,180 +372,425 @@
 
 <body>
 
+    <!-- =========================
+         TOP BAR
+    ========================== -->
+
     <header class="topbar">
         <div class="brand">
             <h1>Employee Records</h1>
-            <p>Employee management dashboard</p>
+
+            {% if is_employee %}
+                <p>My Employee Profile</p>
+            {% else %}
+                <p>Employee Management Dashboard</p>
+            {% endif %}
         </div>
 
         <form class="logout-form"
               method="POST"
               action="{% url 'logout' %}">
             {% csrf_token %}
-            <button class="logout-btn" type="submit">Logout</button>
+
+            <button class="logout-btn" type="submit">
+                Logout
+            </button>
         </form>
     </header>
 
+
     <main class="container">
 
+        <!-- =========================
+             WELCOME SECTION
+        ========================== -->
+
         <section class="welcome">
+
             <h2>Welcome, {{ request.user.username }}!</h2>
-            <p>Manage and review employee information below.</p>
+
+            {% if is_employee %}
+                <p>View your employee information below.</p>
+            {% else %}
+                <p>Manage and review employee information below.</p>
+            {% endif %}
+
         </section>
+
+
+        <!-- =========================
+             NOTIFICATIONS
+        ========================== -->
 
         {% if messages %}
             {% for message in messages %}
-                <div class="message {{ message.tags }}" role="alert">
+                <div class="message {{ message.tags }}"
+                     role="alert">
+
                     {{ message }}
+
                 </div>
             {% endfor %}
         {% endif %}
 
-        <section class="stats-grid">
-            <article class="stat-card">
-                <p class="stat-label">Total Employees</p>
-                <p class="stat-number">{{ total_employees }}</p>
-            </article>
 
-            <article class="stat-card">
-                <p class="stat-label">Departments</p>
-                <p class="stat-number">{{ total_departments }}</p>
-            </article>
+        <!-- =========================
+             ADMIN/MANAGER STATISTICS
+             EMPLOYEES CANNOT SEE
+        ========================== -->
 
-            <article class="stat-card">
-                <p class="stat-label">Linked Accounts</p>
-                <p class="stat-number">{{ linked_accounts }}</p>
-            </article>
+        {% if not is_employee %}
 
-            <article class="stat-card">
-                <p class="stat-label">Unlinked Accounts</p>
-                <p class="stat-number">{{ unlinked_accounts }}</p>
-            </article>
-        </section>
+            <section class="stats-grid">
 
-        {% if can_add %}
-            <section class="panel">
-                <h2>Add Employee</h2>
+                <article class="stat-card">
+                    <p class="stat-label">
+                        Total Employees
+                    </p>
 
-                <form class="employee-form" method="POST">
-                    {% csrf_token %}
-                    {{ form.as_p }}
+                    <p class="stat-number">
+                        {{ total_employees }}
+                    </p>
+                </article>
 
-                    <button class="primary-btn" type="submit">
-                        Add Employee
-                    </button>
-                </form>
+
+                <article class="stat-card">
+                    <p class="stat-label">
+                        Departments
+                    </p>
+
+                    <p class="stat-number">
+                        {{ total_departments }}
+                    </p>
+                </article>
+
+
+                <article class="stat-card">
+                    <p class="stat-label">
+                        Linked Accounts
+                    </p>
+
+                    <p class="stat-number">
+                        {{ linked_accounts }}
+                    </p>
+                </article>
+
+
+                <article class="stat-card">
+                    <p class="stat-label">
+                        Unlinked Accounts
+                    </p>
+
+                    <p class="stat-number">
+                        {{ unlinked_accounts }}
+                    </p>
+                </article>
+
             </section>
+
         {% endif %}
 
+
+        <!-- =========================
+             ADD EMPLOYEE
+        ========================== -->
+
+        {% if can_add %}
+
+            <section class="panel">
+
+                <h2>Add Employee</h2>
+
+                <form class="employee-form"
+                      method="POST">
+
+                    {% csrf_token %}
+
+                    {{ form.as_p }}
+
+                    <button class="primary-btn"
+                            type="submit">
+
+                        Add Employee
+
+                    </button>
+
+                </form>
+
+            </section>
+
+        {% endif %}
+
+
+        <!-- =========================
+             EMPLOYEE DIRECTORY
+        ========================== -->
+
         <section>
-            <h2 class="directory-heading">Employee Directory</h2>
 
-            <form class="filter-form"
-                  method="GET"
-                  action="{% url 'employee_list' %}">
+            {% if is_employee %}
 
-                <input
-                    type="search"
-                    name="q"
-                    placeholder="Search by name, email, or department..."
-                    value="{{ search_query }}"
-                    aria-label="Search employees"
-                >
+                <h2 class="directory-heading">
+                    My Profile
+                </h2>
 
-                <select name="department" aria-label="Filter by department">
-                    <option value="">All Departments</option>
+            {% else %}
 
-                    {% for department in departments %}
-                        <option
-                            value="{{ department }}"
-                            {% if selected_department == department %}selected{% endif %}
-                        >
-                            {{ department }}
-                        </option>
-                    {% endfor %}
-                </select>
+                <h2 class="directory-heading">
+                    Employee Directory
+                </h2>
 
-                <button class="search-btn" type="submit">
-                    Apply Filters
-                </button>
-            </form>
-
-            {% if search_query or selected_department %}
-                <p>Showing filtered employee records.</p>
-
-                <a class="clear-search"
-                   href="{% url 'employee_list' %}">
-                    Clear all filters
-                </a>
             {% endif %}
 
-            <div class="employee-grid">
-                {% for employee in employees %}
-                    <article class="employee-card">
 
-                        <h3>
-                            <a class="employee-name"
-                               href="{% url 'employee_detail' employee.id %}">
-                                {{ employee.full_name }}
-                            </a>
-                        </h3>
+            <!-- SEARCH AND FILTER -->
+            <!-- EMPLOYEES CANNOT SEE -->
 
-                        <p>
-                            <strong>Email:</strong>
-                            {{ employee.email }}
-                        </p>
+            {% if can_search %}
 
-                        <p>
-                            <strong>Department:</strong>
-                            {{ employee.department }}
-                        </p>
+                <form class="filter-form"
+                      method="GET"
+                      action="{% url 'employee_list' %}">
 
-                        <p>
-                            <strong>Job title:</strong>
-                            {{ employee.job_title }}
-                        </p>
+                    <input
+                        type="search"
+                        name="q"
+                        placeholder="Search by name, email, or department..."
+                        value="{{ search_query }}"
+                    >
 
-                        <div class="actions">
-                            {% if can_edit %}
-                                <a class="action-link"
-                                   href="{% url 'edit_employee' employee.id %}">
-                                    Edit
-                                </a>
-                            {% endif %}
+                    <select name="department">
 
-                            {% if can_add %}
-                                <a class="action-link"
-                                   href="{% url 'link_employee_account' employee.id %}">
-                                    Link Account
-                                </a>
-                            {% endif %}
-                        </div>
+                        <option value="">
+                            All Departments
+                        </option>
 
-                        {% if can_delete %}
-                            <form method="POST"
-                                  action="{% url 'remove_employee' employee.id %}"
-                                  onsubmit="return confirm('Are you sure you want to remove this employee?');">
+                        {% for department in departments %}
 
-                                {% csrf_token %}
+                            <option
+                                value="{{ department }}"
+                                {% if selected_department == department %}
+                                    selected
+                                {% endif %}
+                            >
 
-                                <button class="remove-btn" type="submit">
-                                    Remove
-                                </button>
-                            </form>
-                        {% endif %}
+                                {{ department }}
 
-                    </article>
-                {% empty %}
-                    <div class="empty-state">
-                        No employee records matched your filters.
-                        Try another search or department.
-                    </div>
-                {% endfor %}
-            </div>
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+
+                    <button class="search-btn"
+                            type="submit">
+
+                        Apply Filters
+
+                    </button>
+
+                </form>
+
+            {% endif %}
+
+
+            <!-- FILTER MESSAGE -->
+
+            {% if can_search %}
+
+                {% if search_query or selected_department %}
+
+                    <p>
+                        Showing filtered employee records.
+                    </p>
+
+                    <a class="clear-search"
+                       href="{% url 'employee_list' %}">
+
+                        Clear all filters
+
+                    </a>
+
+                {% endif %}
+
+            {% endif %}
+
+
+            <!-- =========================
+                 EMPLOYEE TABLE
+            ========================== -->
+
+            {% if employees %}
+
+                <div class="table-wrapper">
+
+                    <table class="employee-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Full Name</th>
+
+                                <th>Email</th>
+
+                                <th>Department</th>
+
+                                <th>Job Title</th>
+
+
+                                <!-- ACTIONS ONLY FOR
+                                     ADMIN / HR / MANAGER -->
+
+                                {% if not is_employee %}
+                                    <th>Actions</th>
+                                {% endif %}
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for employee in employees %}
+
+                                <tr>
+
+                                    <td>
+
+                                        <!-- Employees can view
+                                             their own information,
+                                             but no edit link -->
+
+                                        {% if is_employee %}
+
+                                            <strong>
+                                                {{ employee.full_name }}
+                                            </strong>
+
+                                        {% else %}
+
+                                            <a class="employee-name"
+                                               href="{% url 'employee_detail' employee.id %}">
+
+                                                {{ employee.full_name }}
+
+                                            </a>
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <td>
+                                        {{ employee.email }}
+                                    </td>
+
+
+                                    <td>
+                                        {{ employee.department }}
+                                    </td>
+
+
+                                    <td>
+                                        {{ employee.job_title }}
+                                    </td>
+
+
+                                    <!-- ACTIONS -->
+
+                                    {% if not is_employee %}
+
+                                        <td>
+
+                                            <div class="actions">
+
+                                                {% if can_edit %}
+
+                                                    <a class="action-link"
+                                                       href="{% url 'edit_employee' employee.id %}">
+
+                                                        Edit
+
+                                                    </a>
+
+                                                {% endif %}
+
+
+                                                {% if can_add %}
+
+                                                    <a class="action-link"
+                                                       href="{% url 'link_employee_account' employee.id %}">
+
+                                                        Link Account
+
+                                                    </a>
+
+                                                {% endif %}
+
+
+                                                {% if can_delete %}
+
+                                                    <form method="POST"
+                                                          action="{% url 'remove_employee' employee.id %}"
+                                                          onsubmit="return confirm('Are you sure you want to remove this employee?');">
+
+                                                        {% csrf_token %}
+
+                                                        <button class="remove-btn"
+                                                                type="submit">
+
+                                                            Remove
+
+                                                        </button>
+
+                                                    </form>
+
+                                                {% endif %}
+
+                                            </div>
+
+                                        </td>
+
+                                    {% endif %}
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+            {% else %}
+
+                <div class="empty-state">
+
+                    {% if is_employee %}
+
+                        Your employee profile has not been linked
+                        to your account yet.
+
+                    {% else %}
+
+                        No employee records matched your search
+                        or filter.
+
+                    {% endif %}
+
+                </div>
+
+            {% endif %}
+
         </section>
 
     </main>
+
 
     <footer>
         Employee Records Management System
